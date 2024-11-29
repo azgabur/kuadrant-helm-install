@@ -14,3 +14,9 @@ spec:
   source: community-operators
   sourceNamespace: openshift-marketplace
 {{- end }}
+{{- if not (empty .Values.extraCatalogSources) }}
+  config:
+    env:
+      - name: RELATED_IMAGE_WASMSHIM
+        value: {{ .Values.kuadrant.wasmImage }}
+{{- end }}

@@ -7,7 +7,7 @@ kuadrant:
   indexImage: 'not-used'
   operatorName: rhcl-operator  # rhcl-operator if installing downstream
   channel: stable  # can be either 'preview' for nightly builds or 'stable' for release builds
-
+  wasmImage: "quay.io/rhn_support_azgabur/rhcl-1/wasm-shim-rhel9:latest"
 gatewayAPI:
   version: v1.1.0  # v1.0.0, v1.1.0 available
 
