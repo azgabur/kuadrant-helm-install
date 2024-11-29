@@ -7,10 +7,3 @@ spec:
   channel: {{ .Values.kuadrant.channel }}
   installPlanApproval: Automatic
   name: {{ .Values.kuadrant.operatorName }}
-{{- if .Values.kuadrant.indexImage }}
-  source: kuadrant-upstream
-  sourceNamespace: {{ .Values.kuadrant.namespace }}
-{{- else }}
-  source: community-operators
-  sourceNamespace: openshift-marketplace
-{{- end }}
