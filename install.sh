@@ -3,17 +3,18 @@
 
 cd "$(dirname "$0")" || exit 1
 
-IMAGE="${IMAGE:-quay.io/kuadrant/kuadrant-operator-catalog:nightly-$(date +%d-%m-%Y)}"
-CHANNEL="${CHANNEL:-preview}"
+IMAGE="${IMAGE:-quay.io/kuadrant/kuadrant-operator-catalog:nightly-$(date +%d-%m-%Y)}"  # TODO NOT USED
+CHANNEL="${CHANNEL:-stable}"  # TODO TEMP CHANGED TO stable
 DEPLOY_TESTSUITE="${DEPLOY_TESTSUITE:-true}"
 
 if [ "$1" = "-t" ]; then
-    echo "Installing channel $CHANNEL with image: $IMAGE"
+    # echo "Installing channel $CHANNEL with image: $IMAGE"
     echo "Testsuite deploy: $DEPLOY_TESTSUITE"
     echo "---Installing operators---" && \
     helm install \
       --values values.yaml \
       --values additionalManifests.yaml \
+      --values extraCatalogSources.yaml \
       --set kuadrant.indexImage="$IMAGE" \
       --set kuadrant.channel="$CHANNEL" \
       --set tools.enabled="$DEPLOY_TESTSUITE" \
@@ -22,6 +23,7 @@ if [ "$1" = "-t" ]; then
     helm install \
       --values values.yaml \
       --values additionalManifests.yaml \
+      --values extraCatalogSources.yaml \
       --set kuadrant.indexImage="$IMAGE" \
       --set kuadrant.channel="$CHANNEL" \
       --set tools.enabled="$DEPLOY_TESTSUITE" \

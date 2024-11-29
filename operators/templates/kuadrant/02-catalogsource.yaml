@@ -1,3 +1,4 @@
+{{- if (empty .Values.extraCatalogSources) }}
 {{- if .Values.kuadrant.indexImage }}
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
@@ -9,4 +10,5 @@ spec:
   sourceType: grpc
   secrets:
     - pull-secret
+{{- end }}
 {{- end }}
