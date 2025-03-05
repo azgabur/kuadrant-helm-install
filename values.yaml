@@ -38,7 +38,7 @@ tools:
   keycloak:
     operator:
       channel: stable-v26
-      startingCSV: rhbk-operator.v26.0.5-opr.1
+      startingCSV: rhbk-operator.v26.0.9-opr.1
       installPlanApproval: Automatic  # if set to Manual InstallPlan has to be approved manually
     database:
       image: quay.io/sclorg/postgresql-16-c10s
