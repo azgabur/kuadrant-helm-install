@@ -1,38 +1,20 @@
 #!/bin/bash
-# Quick script to run helm
+# Quick script to run Helm
 
 cd "$(dirname "$0")" || exit 1
 
-IMAGE="${IMAGE:-quay.io/kuadrant/kuadrant-operator-catalog:nightly-$(date +%d-%m-%Y)}"
-CHANNEL="${CHANNEL:-preview}"
-DEPLOY_TESTSUITE="${DEPLOY_TESTSUITE:-true}"
+additional_flags=''
 
-if [ "$1" = "-t" ]; then
-    echo "Installing channel $CHANNEL with image: $IMAGE"
-    echo "Testsuite deploy: $DEPLOY_TESTSUITE"
-    echo "---Installing operators---" && \
-    helm install \
-      --values values.yaml \
-      --values additionalManifests.yaml \
-      --set kuadrant.indexImage="$IMAGE" \
-      --set kuadrant.channel="$CHANNEL" \
-      --set tools.enabled="$DEPLOY_TESTSUITE" \
-      --wait kuadrant-operators operators/ && \
-    echo "--Installing instances---" && \
-    helm install \
-      --values values.yaml \
-      --values additionalManifests.yaml \
-      --set kuadrant.indexImage="$IMAGE" \
-      --set kuadrant.channel="$CHANNEL" \
-      --set tools.enabled="$DEPLOY_TESTSUITE" \
-      --wait \
-      kuadrant-instances instances/ && \
-    echo "Success!"
-else
-    echo "Using defaults from values.yaml"
-    echo "Installing operators" && \
-    helm install --values values.yaml --wait kuadrant-operators operators/ && \
-    echo "Installing instances" && \
-    helm install --values values.yaml --wait kuadrant-instances instances/ && \
-    echo "Success!"
+if [[ "$1" = "-t" ]]; then
+    additional_flags+="--values additionalManifests.yaml --set tools.enabled=true"
 fi
+
+echo "---Installing operators---"
+helm install --values values.yaml $additional_flags \
+  --wait kuadrant-operators operators/
+
+echo "--Installing instances---"
+helm install --values values.yaml $additional_flags \
+  --wait kuadrant-instances instances/
+
+echo "Success!"
