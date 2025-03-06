@@ -8,11 +8,10 @@ This chart requires that your cluster has loadbalancing service.
 - Red Hat cert-manager
 - Istio provider (one of)
   - Sail operator
-  - Openshift service mesh v2
   - Openshift service mesh v3
 - Gateway API
 
-If you choose to deploy testsuite environment by setting `tools.enabled` to true:
+If you choose to deploy testsuite:
 
 - RH Keycloak
 - Jaeger
@@ -22,28 +21,24 @@ If you choose to deploy testsuite environment by setting `tools.enabled` to true
 # How to run
 
 1. Set up values.yaml
-2. Login to your cluster.
+2. Login to your cluster
 3. Run:
 ```sh
 ./install.sh
 ```
 4. Enjoy
+5. Cleanup: `./uninstall.sh`
 
 ## Testsuite deploy and Environment variables
 
-If you want testsuite environment create additionalManifests.yaml with list of DNS provider credentials and Letsencrypt issuer. More info about required objects see [testsuite wiki](https://github.com/Kuadrant/testsuite/wiki/Guide-to-prepare-Openshift-cluster-to-run-testsuite)
+If you want an environment ready for running [Kuadrant testsuite](https://github.com/Kuadrant/testsuite) create additionalManifests.yaml with list of DNS provider credentials and Letsencrypt issuer. More info about required objects see [testsuite wiki](https://github.com/Kuadrant/testsuite/wiki/Guide-to-prepare-Openshift-cluster-to-run-testsuite)
 Look at example-additionalManifests.yaml
 
-Set env variables and run `./testsuite.sh -t`
-
-Env vars:
-- IMAGE sets `kuadrant.indexImage` and defines image of Kuadrant operator, by default it sets today nightly
-- CHANNEL sets `kuadrant.channel` and defines channel of deployed Kuadrant, by default it sets 'preview'
-- DEPLOY_TESTSUITE sets `tools.enabled` and defines if to deploy testsuite environment, by default it sets true
+Use `-t` flag to get Kuadrant testsuite dependencies installed: `./install.sh -t`. It sets `tools.enabled` to true and makes Helm consume additional values from additionalManifests.yaml.
 
 ## Manual helm
 
-If you do not want to use provided `./install.sh`
+If you do not want to use helper `./install.sh` (and `./uninstall.sh`) script:
 
 1. Install Operators
 ```sh
