@@ -1,4 +1,4 @@
-{{- if .Values.kuadrant.indexImage }}
+{{- if and (.Values.kuadrant.indexImage) (ne .Values.kuadrant.indexImage "") }}
 apiVersion: operators.coreos.com/v1alpha1
 kind: CatalogSource
 metadata:
