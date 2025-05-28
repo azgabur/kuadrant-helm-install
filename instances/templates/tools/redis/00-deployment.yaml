@@ -1,0 +1,44 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: redis
+  name: redis
+  namespace: {{ .Values.tools.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redis
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: redis
+    spec:
+      containers:
+        - image: {{ .Values.tools.redis.image }}
+          name: redis
+          args:
+            - "--maxmemory"
+            - "256mb"
+          env:
+            - name: REDIS_PORT
+              value: "6379"
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "10m"
+              memory: "10Mi"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+{{end}}

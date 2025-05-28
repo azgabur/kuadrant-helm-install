@@ -1,0 +1,17 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  namespace: {{ .Values.tools.namespace }}
+  labels:
+    app: redis
+spec:
+  selector:
+    app: redis
+  ports:
+    - name: redis
+      port: 6379
+      protocol: TCP
+  type: LoadBalancer
+{{end}}

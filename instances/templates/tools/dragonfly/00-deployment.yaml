@@ -1,0 +1,41 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: dragonfly
+  name: dragonfly
+  namespace: {{ .Values.tools.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dragonfly
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: dragonfly
+    spec:
+      containers:
+        - image: {{ .Values.tools.dragonfly.image }}
+          name: dragonfly
+          args:
+            - "--maxmemory"
+            - "256mb"
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "10m"
+              memory: "30Mi"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+{{end}}

@@ -1,0 +1,17 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: dragonfly
+  namespace: {{ .Values.tools.namespace }}
+  labels:
+    app: dragonfly
+spec:
+  selector:
+    app: dragonfly
+  ports:
+    - name: dragonfly
+      port: 6379
+      protocol: TCP
+  type: LoadBalancer
+{{end}}
