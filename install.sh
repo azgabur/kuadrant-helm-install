@@ -18,7 +18,7 @@ helm_cmd="helm install --values values.yaml $additional_flags --wait kuadrant-op
 eval "$helm_cmd"
 
 echo "--Installing instances---"
-helm_cmd="helm install --values values.yaml $additional_flags --wait kuadrant-instances instances/"
+helm_cmd="helm install --values values.yaml $additional_flags --wait --timeout 7m kuadrant-instances instances/"
 eval "$helm_cmd"
 
 echo "Success!"
