@@ -1,0 +1,17 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: valkey
+  namespace: {{ .Values.tools.namespace }}
+  labels:
+    app: valkey
+spec:
+  selector:
+    app: valkey
+  ports:
+    - name: valkey
+      port: 6379
+      protocol: TCP
+  type: LoadBalancer
+{{end}}

@@ -65,5 +65,7 @@ tools:
     image: quay.io/opstree/redis:latest
   dragonfly:
     image: docker.dragonflydb.io/dragonflydb/dragonfly:latest
+  valkey:
+    image: ghcr.io/valkey-io/valkey:latest
 
 additionalManifests: []

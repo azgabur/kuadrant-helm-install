@@ -1,0 +1,41 @@
+{{ if eq .Values.tools.enabled true }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: valkey
+  name: valkey
+  namespace: {{ .Values.tools.namespace }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: valkey
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: valkey
+    spec:
+      containers:
+        - image: {{ .Values.tools.valkey.image }}
+          name: valkey
+          args:
+            - "--maxmemory"
+            - "256mb"
+          ports:
+            - containerPort: 6379
+          resources:
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+            requests:
+              cpu: "10m"
+              memory: "30Mi"
+          volumeMounts:
+            - name: data
+              mountPath: /data
+      volumes:
+        - name: data
+          emptyDir: {}
+{{end}}

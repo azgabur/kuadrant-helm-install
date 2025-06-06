@@ -59,7 +59,7 @@ helm install --values values.yaml --values additionalManifests.yaml --wait -g op
 ```
 2. Install instances (operands)
 ```sh
-helm install --values values.yaml --values additionalManifests.yaml --wait -g instances/
+helm install --values values.yaml --values additionalManifests.yaml --wait --timeout 7m -g instances/
 ```
 
 # Troubleshooting
