@@ -1,0 +1,19 @@
+name: Helm chart static analysis
+on:
+  push:
+  pull_request:
+    branches: [ main ]
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    container: quay.io/helmpack/chart-testing:latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Lint operators
+        run: helm lint --strict operators/
+      - name: Lint instances
+        run: helm lint --strict instances/
+      - name: Lint tools operators
+        run: helm lint --strict tools/operators/
+      - name: Lint tools instances
+        run: helm lint --strict tools/instances
